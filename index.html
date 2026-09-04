@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#fff6f8">
+<title>Для тебя 💗</title>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",sans-serif;
+  color:#351d27;background:#f8e8ed;-webkit-tap-highlight-color:transparent;
+}
+.app{width:100%;height:100dvh;overflow:hidden;position:relative;
+ background:linear-gradient(160deg,#fff8fa 0%,#f8e3ea 100%)}
+.track{height:100%;transition:transform .72s cubic-bezier(.77,0,.18,1);will-change:transform}
+.slide{height:100dvh;width:100%;display:flex;align-items:center;justify-content:center;
+ padding:42px 20px 30px;position:relative;overflow:hidden}
+.content{width:min(100%,390px);position:relative;z-index:2;text-align:center}
+.photo{
+ width:min(100%,285px);height:min(43dvh,350px);object-fit:cover;display:block;
+ margin:0 auto 22px;border-radius:25px;box-shadow:0 18px 45px rgba(91,42,60,.18);
+ border:5px solid rgba(255,255,255,.72);
+}
+h1{font-size:clamp(36px,11vw,54px);line-height:.98;letter-spacing:-2.8px;margin:0;font-weight:800}
+h2{font-size:clamp(31px,9vw,45px);line-height:1.02;letter-spacing:-2px;margin:0;font-weight:800}
+p{font-size:16px;line-height:1.42;color:#765967;margin:14px auto 0;max-width:330px}
+.btn{border:0;width:min(100%,285px);margin-top:23px;padding:15px 20px;border-radius:999px;
+ background:#f22e4d;color:white;font:750 15px inherit;box-shadow:0 11px 24px rgba(242,46,77,.24);
+ cursor:pointer;transition:.15s}
+.btn:active{transform:scale(.96)}
+.eyebrow{display:inline-block;font-size:11px;font-weight:750;letter-spacing:.08em;text-transform:uppercase;
+ color:#a25b70;background:rgba(255,255,255,.68);padding:8px 12px;border-radius:99px;margin-bottom:15px}
+.progress{position:fixed;top:max(14px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);
+ display:flex;gap:4px;z-index:20}
+.dot{height:4px;width:5px;border-radius:99px;background:#dcb9c5}.dot.active{width:17px;background:#f22e4d}
+.counter{position:fixed;right:17px;top:max(14px,env(safe-area-inset-top));z-index:20;
+ font-size:10px;font-weight:700;color:#9c6879}
+.hearts{font-size:27px;margin:10px 0 17px;letter-spacing:6px}
+.decor{position:absolute;inset:0;pointer-events:none}
+.decor i{position:absolute;font-style:normal;opacity:.55;animation:float 4s ease-in-out infinite}
+.d1{left:8%;top:19%;font-size:24px}.d2{right:8%;top:31%;font-size:18px;animation-delay:1s}
+.d3{left:10%;bottom:18%;font-size:17px;animation-delay:1.8s}.d4{right:9%;bottom:24%;font-size:25px;animation-delay:.5s}
+@keyframes float{50%{transform:translateY(-10px) rotate(8deg)}}
+@media(min-width:600px){.app{width:390px;margin:auto;box-shadow:0 0 80px rgba(50,20,35,.12)}}
+</style>
+</head>
+<body>
+<div class="app">
+ <div class="progress" id="progress"></div><div class="counter" id="counter"></div>
+ <div class="track" id="track"></div>
+</div>
+<script>
+const pages = [
+ ["photo-01.jpg","Привет пупсик","У меня не получается передать то как сильно я по тебе скучаю и люблю тебя словами. Может у меня получится сделать это таким образом. Просто нажимай на кнопку и читай :)","Нажми на меня"],
+ ["photo-02.jpg","Бу","Испугались?","Нажимай не бойся"],
+ ["photo-03.jpg","Очень очень","Скучаю по тебе, ты мое солнышко — светишь каждый день","Тапай"],
+ ["photo-04.jpg","Хочу вот так","Тебя обнять и не пускать","Тыкай"],
+ ["photo-05.jpg","Да","Это очень сладко согласен)","Готова?"],
+ ["photo-06.jpg","Люблю тебя<br>Такую","","Дальше"],
+ ["photo-07.jpg","Такую","Люблю очень","Клац!"],
+ ["photo-08.jpg","И такую тоже","Люблю тебя абсолютно любую","Есть еще"],
+ ["photo-09.jpg","Скучаю по нашему","Отдыху, и хочу повторить это еще очень много раз","Гортай"],
+ ["photo-10.jpg","Мы взлетаем","Набираем обороты. Почти","Мы летим"],
+ ["photo-11.jpg","Мы летим","Хочу тебя встретить вот так","Почти почти"],
+ ["photo-12.jpg","Все еще летим","Мы покидаем орбиту земля, она меньше чем наша любовь","В стратосферу"],
+ ["photo-13.jpg","Мы на месте","Звезд не хватит пересчитать как я скучаю по тебе солнце","Есть еще"],
+ ["photo-14.jpg","Хочу тебя","Так сладко поцеловать","И еще......."],
+ ["photo-15.jpg","Раз поцеловать","Уже в губки. Цем","Дальше"],
+ ["photo-16.jpg","Спряталась","И выжидает. Хочу с тобой уже баловаться","Да Да"],
+ ["photo-17.jpg","Но я все равно","Поймал тебя ахахах","Чмок"],
+ ["photo-18.jpg","Еще чмок","Хочу тебя зацеловать всю. Так сильно скучаю","Дальше"],
+ ["photo-19.jpg","Моя леди","Ты мой дом. Без тебя тут грустно :(((","Это так"],
+ ["photo-20.jpg","Моя радость","Мне с тобой очень весело","Тапай"],
+ ["photo-21.jpg","Любимая","Любое занятие с тобой интересное, я очень соскучился","Ну правда"],
+ ["photo-22.jpg","И морожено","Вкуснее с тобой","Мммм"],
+ ["photo-23.jpg","И пиво","Вкуснее с рядом тобой. Буль буль","Дальше"],
+ ["photo-24.jpg","И кофе","Имеет вкус любви, когда рядом ТЫ","Люблю"],
+ ["photo-25.jpg","И море","Пахнет как сон, потому что там есть ты","Еще"],
+ ["photo-26.jpg","Еще","Еще","Ты самая красивая"],
+ ["photo-27.jpg","Во вселенной","Я очень скучаю","Еще"],
+ ["photo-28.jpg","Я жду тебя","Каждый день. Даже когда не говорю это","Еще"],
+ ["photo-29.jpg","Любое время года","Теплое с тобой","И на конец"],
+ ["photo-29.jpg","Я очень жду тебя","приезжай ко мне скорее котик","На этом все)"]
+];
+
+const track=document.getElementById('track');
+const progress=document.getElementById('progress');
+const counter=document.getElementById('counter');
+
+pages.forEach((p,i)=>{
+  const s=document.createElement('section'); s.className='slide';
+  s.innerHTML=`<div class="decor"><i class="d1">♡</i><i class="d2">♥</i><i class="d3">✦</i><i class="d4">♡</i></div>
+  <div class="content">
+    <img class="photo" src="images/${p[0]}" alt="">
+    <div class="eyebrow">${i===0?'для тебя':'ещё немного'}</div>
+    <h2>${p[1]}</h2>
+    ${p[2]?`<p>${p[2]}</p>`:''}
+    <button class="btn">${p[3]}</button>
+  </div>`;
+  track.appendChild(s);
+  const d=document.createElement('span'); d.className='dot'+(i===0?' active':''); progress.appendChild(d);
+});
+
+let current=0,locked=false;
+function update(){
+ track.style.transform=`translateY(-${current*100}dvh)`;
+ [...progress.children].forEach((d,i)=>d.classList.toggle('active',i===current));
+ counter.textContent=`${current+1} / ${pages.length}`;
+}
+function next(){if(locked||current>=pages.length-1)return;locked=true;current++;update();setTimeout(()=>locked=false,760)}
+document.addEventListener('click',e=>{if(e.target.closest('.btn'))next()});
+let y=0;
+document.addEventListener('touchstart',e=>y=e.touches[0].clientY,{passive:true});
+document.addEventListener('touchend',e=>{if(y-e.changedTouches[0].clientY>45)next()},{passive:true});
+update();
+</script>
+</body>
+</html>
